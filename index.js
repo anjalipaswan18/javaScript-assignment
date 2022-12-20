@@ -17,8 +17,9 @@ document.getElementById("pauseTimer").addEventListener("click", () => {
 
 document.getElementById("resetTimer").addEventListener("click", () => {
   clearInterval(int);
-  [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+  [milliseconds, seconds, minutes, hours] = [0, 0, 0, 00];
   timerRef.innerHTML = "00 : 00 : 00 : 00 ";
+  document.getElementById("startTimer").style.display = "inline";
 });
 
 function displayTimer() {
