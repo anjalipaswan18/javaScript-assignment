@@ -16,7 +16,7 @@ document.getElementById("pauseTimer").addEventListener("click", () => {
 document.getElementById("resetTimer").addEventListener("click", () => {
   clearInterval(int);
   [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
-  timerRef.innerHTML = "00 : 00 : 00 : 000 ";
+  timerRef.innerHTML = "00 : 00 : 00 : 00 ";
 });
 
 function displayTimer() {
@@ -38,11 +38,12 @@ function displayTimer() {
   let m = minutes < 10 ? "0" + minutes : minutes;
   let s = seconds < 10 ? "0" + seconds : seconds;
   let ms =
-    milliseconds < 10
-      ? "00" + milliseconds
-      : milliseconds < 100
+    milliseconds < 9
       ? "0" + milliseconds
+      : milliseconds < 100
+      ? "" + milliseconds
       : milliseconds;
+  console.log("ms", ms, milliseconds);
 
   timerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
 }
