@@ -1,42 +1,48 @@
-var seconds = 00;
-var tens = 00;
-var appendTens = document.getElementById("tens");
-var appendSeconds = document.getElementById("seconds");
-var Start = document.getElementById("button-start");
-var Stop = document.getElementById("button-stop");
-var Reset = document.getElementById("button-reset");
-var interval;
-function startTimer() {
-  tens++;
-  if (tens < 9) {
-    appendTens.innerHTML = "0" + tens;
+let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+let timerRef = document.querySelector(".timerDisplay");
+let int = null;
+
+document.getElementById("startTimer").addEventListener("click", () => {
+  if (int !== null) {
+    clearInterval(int);
   }
-  if (tens > 9) {
-    appendTens.innerHTML = tens;
-  }
-  if (tens > 99) {
+  int = setInterval(displayTimer, 10);
+});
+
+document.getElementById("pauseTimer").addEventListener("click", () => {
+  clearInterval(int);
+});
+
+document.getElementById("resetTimer").addEventListener("click", () => {
+  clearInterval(int);
+  [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+  timerRef.innerHTML = "00 : 00 : 00 : 000 ";
+});
+
+function displayTimer() {
+  milliseconds += 10;
+  if (milliseconds == 1000) {
+    milliseconds = 0;
     seconds++;
-    appendSeconds.innerHTML = "0" + seconds;
-    tens = 0;
-    appendTens.innerHTML = "0" + 0;
+    if (seconds == 60) {
+      seconds = 0;
+      minutes++;
+      if (minutes == 60) {
+        minutes = 0;
+        hours++;
+      }
+    }
   }
-  if (seconds > 9) {
-    appendSeconds.innerHTML = seconds;
-  }
+
+  let h = hours < 10 ? "0" + hours : hours;
+  let m = minutes < 10 ? "0" + minutes : minutes;
+  let s = seconds < 10 ? "0" + seconds : seconds;
+  let ms =
+    milliseconds < 10
+      ? "00" + milliseconds
+      : milliseconds < 100
+      ? "0" + milliseconds
+      : milliseconds;
+
+  timerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
 }
-Start.onclick = function () {
-  console.log("start");
-  interval = setInterval(startTimer);
-};
-Stop.onclick = function () {
-  console.log("stop");
-  clearInterval(interval);
-};
-Reset.onclick = function () {
-  console.log("reset");
-  clearInterval(interval);
-  tens = "00";
-  seconds = "00";
-  appendSeconds.innerHTML = seconds;
-  appendTens.innerText = tens;
-};
